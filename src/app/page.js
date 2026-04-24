@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Script from "next/script";
+import { redirect } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
 import { ShieldCheck } from "lucide-react";
 import ProductUI from "@/components/ProductUI";
@@ -12,26 +13,13 @@ const supabase = createClient(
 const STORAGE_URL = process.env.NEXT_PUBLIC_STORAGE_URL;
 const FB_PIXEL_ID = process.env.NEXT_PUBLIC_FB_PIXEL_ID;
 
-function NotFound() {
-  return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4">
-      <div className="text-center">
-        <h1 className="text-2xl font-semibold text-slate-900">
-          Producto no encontrado
-        </h1>
-        <p className="mt-2 text-slate-500">
-          El producto que buscas no está disponible.
-        </p>
-      </div>
-    </div>
-  );
-}
+const STORE_URL = "https://rubyk.cercia.co/productos";
 
 export default async function Page({ searchParams }) {
   const params = await searchParams;
   const sku = params?.sku;
 
-  if (!sku) return <NotFound />;
+  if (!sku) redirect(STORE_URL);
 
   const { data: product, error } = await supabase
     .from("products_data")
@@ -39,7 +27,7 @@ export default async function Page({ searchParams }) {
     .eq("sku", sku)
     .single();
 
-  if (error || !product) return <NotFound />;
+  if (error || !product) redirect(STORE_URL);
 
   const imageUrl = STORAGE_URL + sku + ".webp";
 
@@ -48,22 +36,24 @@ export default async function Page({ searchParams }) {
       {/* HEADER */}
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
         <div className="max-w-5xl mx-auto px-4 h-16 flex items-center">
-          <Image
-            src={STORAGE_URL + "logo-rubyk-black-sm.webp"}
-            alt="Rubyk"
-            width={120}
-            height={40}
-            className="h-10 w-auto md:hidden"
-            priority
-          />
-          <Image
-            src={STORAGE_URL + "logo-rubyk-black-lg.png"}
-            alt="Rubyk"
-            width={160}
-            height={48}
-            className="hidden md:block h-12 w-auto"
-            priority
-          />
+          <a href={STORE_URL}>
+            <Image
+              src={STORAGE_URL + "logo-rubyk-black-sm.webp"}
+              alt="Rubyk"
+              width={120}
+              height={40}
+              className="h-10 w-auto md:hidden"
+              priority
+            />
+            <Image
+              src={STORAGE_URL + "logo-rubyk-black-lg.png"}
+              alt="Rubyk"
+              width={160}
+              height={48}
+              className="hidden md:block h-12 w-auto"
+              priority
+            />
+          </a>
         </div>
       </header>
 
