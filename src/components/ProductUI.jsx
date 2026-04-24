@@ -161,7 +161,7 @@ export default function ProductUI({ product, imageUrl }) {
           {originalPrice !== null && discount !== null && (
             <div className="flex items-center gap-2 flex-wrap">
               <span className="line-through text-slate-400 text-lg">
-                ${fmt(originalPrice)} COP
+                ${fmt(originalPrice + 7900)} COP
               </span>
               <span className="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-700 text-xs font-bold uppercase tracking-wide">
                 -{Math.round(discount * 100)}% hoy
@@ -176,7 +176,7 @@ export default function ProductUI({ product, imageUrl }) {
           {/* Shipping note */}
           <div className="flex items-baseline gap-1.5 text-sm text-slate-500">
             <span>+ envío</span>
-            <span className="font-semibold text-slate-700">$5.000 COP</span>
+            <span className="font-semibold text-slate-700">$7.900 COP</span>
             <span className="text-slate-400">·</span>
             <span>Total:
               <span className="font-semibold text-slate-700 ml-1">
