@@ -4,6 +4,23 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  
+  /* Variables requeridas para la descripción HTML del producto */
+    --color-text-primary: #111827;
+    --color-text-secondary: #4b5563;
+    --color-text-tertiary: #9ca3af;
+    --color-text-info: #3b82f6;
+    --color-text-success: #059669;
+    --color-text-warning: #d97706;
+  
+    --color-background-primary: var(--background);
+    --color-background-secondary: #f3f4f6;
+    --color-background-success: #ecfdf5;
+  
+    --color-border-tertiary: #e5e7eb;
+  
+    --border-radius-md: 0.5rem;
+    --border-radius-lg: 0.75rem;
 }
 
 @theme inline {
@@ -17,4 +34,13 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+@keyframes pulse-cta {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(15, 23, 42, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(15, 23, 42, 0); }
+}
+
+.animate-pulse-cta {
+  animation: pulse-cta 2.5s ease-in-out infinite;
 }
