@@ -173,6 +173,18 @@ export default function ProductUI({ product, imageUrl }) {
             <span className="text-lg font-semibold text-slate-500 ml-1">COP</span>
           </p>
 
+          {/* Shipping note */}
+          <div className="flex items-baseline gap-1.5 text-sm text-slate-500">
+            <span>+ envío</span>
+            <span className="font-semibold text-slate-700">$5.000 COP</span>
+            <span className="text-slate-400">·</span>
+            <span>Total:
+              <span className="font-semibold text-slate-700 ml-1">
+                ${fmt(basePrice + 7900)} COP
+              </span>
+            </span>
+          </div>
+
           {/* Countdown pill */}
           <div className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-rose-600 w-fit shadow-sm">
             <Flame className="w-4 h-4 text-white shrink-0" />
@@ -233,19 +245,24 @@ export default function ProductUI({ product, imageUrl }) {
 
           {/* Mercado Libre */}
           {product.ml_url && (
-            <a
-              href={product.ml_url}
-              className="flex items-center justify-between gap-3 w-full py-4 px-5 rounded-2xl bg-[#FFE600] text-slate-900 font-bold text-base shadow-lg hover:bg-yellow-300 active:scale-[0.98] transition-all duration-150"
-            >
-              <span>Comprar en Mercado Libre</span>
-              <Image
-                src={STORAGE_URL + "mercadolibre-logo-h.webp"}
-                alt="Mercado Libre"
-                width={120}
-                height={28}
-                className="h-7 w-auto object-contain shrink-0"
-              />
-            </a>
+            <div className="flex flex-col gap-1.5">
+              <a
+                href={product.ml_url}
+                className="flex items-center justify-between gap-3 w-full py-4 px-5 rounded-2xl bg-[#FFE600] text-slate-900 font-bold text-base shadow-lg hover:bg-yellow-300 active:scale-[0.98] transition-all duration-150"
+              >
+                <span>Comprar en Mercado Libre</span>
+                <Image
+                  src={STORAGE_URL + "mercadolibre-logo-h.webp"}
+                  alt="Mercado Libre"
+                  width={120}
+                  height={28}
+                  className="h-7 w-auto object-contain shrink-0"
+                />
+              </a>
+              <p className="text-xs text-slate-400 px-1">
+                * El precio y costo de envío en Mercado Libre pueden variar según las políticas y tarifas propias de la plataforma.
+              </p>
+            </div>
           )}
         </div>
       </div>
