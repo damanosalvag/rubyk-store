@@ -225,6 +225,10 @@ export default function ProductUI({ product, imageUrl }) {
 
         {/* CTA — desktop only */}
         <div className="hidden md:flex flex-col gap-3">
+          <div className="flex flex-col gap-0.5">
+            <p className="text-xs font-semibold uppercase tracking-widest text-slate-400">¿Listo para llevártelo?</p>
+            <p className="text-base font-bold text-slate-800">Elige dónde comprarlo — envío a todo el país</p>
+          </div>
           {/* Tienda Rubyk */}
           <a
             href={product.checkout_url}

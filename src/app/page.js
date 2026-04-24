@@ -63,7 +63,11 @@ export default async function Page({ searchParams }) {
       </main>
 
       {/* MOBILE STICKY CTA */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white/95 backdrop-blur-md border-t border-slate-200 px-4 py-3 flex gap-2">
+      <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white/95 backdrop-blur-md border-t border-slate-200 px-4 pt-2 pb-3 flex flex-col gap-2">
+        <p className="text-center text-xs font-semibold text-slate-500 tracking-wide uppercase">
+          Compra ahora — elige tu plataforma
+        </p>
+        <div className="flex gap-2">
         <a
           href={product.checkout_url}
           className="flex-1 flex items-center justify-center gap-2 py-3 px-3 rounded-2xl bg-slate-900 text-white font-bold text-sm shadow-xl active:scale-[0.98] transition-all duration-150"
@@ -91,6 +95,7 @@ export default async function Page({ searchParams }) {
             />
           </a>
         )}
+        </div>
       </div>
 
       {/* META PIXEL */}
