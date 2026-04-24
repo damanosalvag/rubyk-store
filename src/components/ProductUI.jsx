@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { ShieldCheck, Truck, BadgeCheck, Star, Flame, Lock } from "lucide-react";
 
+const STORAGE_URL = process.env.NEXT_PUBLIC_STORAGE_URL;
 const DISCOUNT_OPTIONS = [0.15, 0.18, 0.19, 0.20];
 
 function pickRandom(arr) {
@@ -22,19 +23,21 @@ function pad(n) {
 }
 
 export default function ProductUI({ product, imageUrl }) {
-  const [discount, setDiscount] = useState(null);
-  const [secs, setSecs]         = useState(null);
-  const intervalRef             = useRef(null);
+  const [discount,   setDiscount]   = useState(null);
+  const [secs,       setSecs]       = useState(null);
+  const [soldCount,  setSoldCount]  = useState(null);
+  const intervalRef                 = useRef(null);
 
-  // Single initialisation effect — runs once on mount
   useEffect(() => {
     const disc  = pickRandom(DISCOUNT_OPTIONS);
-    const hours = Math.floor(Math.random() * 15) + 10; // 10–24 h
-    const extra = Math.floor(Math.random() * 59) * 60; // random minutes
+    const hours = Math.floor(Math.random() * 15) + 10;
+    const extra = Math.floor(Math.random() * 59) * 60;
     const total = hours * 3600 + extra;
+    const sold  = Math.floor(Math.random() * 1001) + 500; // 500–1500
 
     setDiscount(disc);
     setSecs(total);
+    setSoldCount(sold);
 
     intervalRef.current = setInterval(() => {
       setSecs((s) => (s > 0 ? s - 1 : 0));
@@ -57,10 +60,9 @@ export default function ProductUI({ product, imageUrl }) {
       };
 
   return (
-    /* ─── TWO-COLUMN GRID (desktop) / single stack (mobile) ─── */
     <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
 
-      {/* ── LEFT COLUMN: image + badges ── */}
+      {/* ── LEFT COLUMN ── */}
       <div className="flex flex-col gap-4">
 
         {/* Main image */}
@@ -84,9 +86,9 @@ export default function ProductUI({ product, imageUrl }) {
         {/* Trust badges */}
         <div className="grid grid-cols-3 gap-2">
           {[
-            { icon: Lock,       label: "Pago 100%",  sub: "Seguro"      },
-            { icon: Truck,      label: "Envío",       sub: "Garantizado" },
-            { icon: BadgeCheck, label: "Soporte",     sub: "Prioritario" },
+            { icon: Lock,       label: "Pago 100%", sub: "Seguro"      },
+            { icon: Truck,      label: "Envío",      sub: "Garantizado" },
+            { icon: BadgeCheck, label: "Soporte",    sub: "Prioritario" },
           ].map(({ icon: Icon, label, sub }) => (
             <div
               key={label}
@@ -99,7 +101,7 @@ export default function ProductUI({ product, imageUrl }) {
           ))}
         </div>
 
-        {/* Video — desktop only, left column */}
+        {/* Video — desktop only */}
         {product.video_id && (
           <div className="hidden md:flex w-full rounded-2xl bg-slate-50 border border-slate-200 items-center justify-center py-6">
             <div className="relative w-full max-w-sm aspect-[9/16] rounded-xl overflow-hidden shadow-sm">
@@ -115,7 +117,7 @@ export default function ProductUI({ product, imageUrl }) {
         )}
       </div>
 
-      {/* ── RIGHT COLUMN: all product info ── */}
+      {/* ── RIGHT COLUMN ── */}
       <div className="flex flex-col gap-5">
 
         {/* Title */}
@@ -132,7 +134,9 @@ export default function ProductUI({ product, imageUrl }) {
             <span className="ml-1.5 text-sm font-semibold text-slate-700">4.9/5</span>
           </div>
           <span className="text-slate-300 select-none">|</span>
-          <span className="text-sm text-slate-500">Más de 1,200 vendidos</span>
+          <span className="text-sm text-slate-500">
+            Más de {soldCount !== null ? soldCount.toLocaleString("es-CO") : "..."} vendidos
+          </span>
         </div>
 
         {/* Scarcity bar */}
@@ -194,7 +198,7 @@ export default function ProductUI({ product, imageUrl }) {
           dangerouslySetInnerHTML={{ __html: product.description_html }}
         />
 
-        {/* Video — mobile only, right column */}
+        {/* Video — mobile only */}
         {product.video_id && (
           <div className="md:hidden relative w-full aspect-[9/16] max-w-xs mx-auto rounded-2xl overflow-hidden shadow-md">
             <iframe
@@ -207,14 +211,43 @@ export default function ProductUI({ product, imageUrl }) {
           </div>
         )}
 
-        {/* CTA — visible only on desktop (mobile uses sticky bar in page.js) */}
-        <a
-          href={product.checkout_url}
-          className="hidden md:inline-flex items-center justify-center gap-2 w-full py-4 px-6 rounded-2xl bg-slate-900 text-white font-bold text-lg shadow-lg hover:bg-slate-800 active:scale-[0.98] transition-all duration-150 animate-pulse-cta"
-        >
-          <ShieldCheck className="w-5 h-5 text-emerald-400" />
-          Asegurar Oferta y Ver Detalles
-        </a>
+        {/* CTA — desktop only */}
+        <div className="hidden md:flex flex-col gap-3">
+          {/* Tienda Rubyk */}
+          <a
+            href={product.checkout_url}
+            className="flex items-center justify-between gap-3 w-full py-4 px-5 rounded-2xl bg-slate-900 text-white font-bold text-base shadow-lg hover:bg-slate-800 active:scale-[0.98] transition-all duration-150 animate-pulse-cta"
+          >
+            <div className="flex items-center gap-3">
+              <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0" />
+              <span>Comprar en tienda oficial</span>
+            </div>
+            <Image
+              src={STORAGE_URL + "logo-rubyk-white-res.webp"}
+              alt="Rubyk"
+              width={100}
+              height={28}
+              className="h-7 w-auto object-contain shrink-0"
+            />
+          </a>
+
+          {/* Mercado Libre */}
+          {product.ml_url && (
+            <a
+              href={product.ml_url}
+              className="flex items-center justify-between gap-3 w-full py-4 px-5 rounded-2xl bg-[#FFE600] text-slate-900 font-bold text-base shadow-lg hover:bg-yellow-300 active:scale-[0.98] transition-all duration-150"
+            >
+              <span>Comprar en Mercado Libre</span>
+              <Image
+                src={STORAGE_URL + "mercadolibre-logo-h.webp"}
+                alt="Mercado Libre"
+                width={120}
+                height={28}
+                className="h-7 w-auto object-contain shrink-0"
+              />
+            </a>
+          )}
+        </div>
       </div>
     </div>
   );

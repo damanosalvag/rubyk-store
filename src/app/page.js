@@ -23,7 +23,7 @@ export default async function Page({ searchParams }) {
 
   const { data: product, error } = await supabase
     .from("products_data")
-    .select("name, price, description_html, video_id, checkout_url")
+    .select("name, price, description_html, video_id, checkout_url, ml_url")
     .eq("sku", sku)
     .single();
 
@@ -63,14 +63,34 @@ export default async function Page({ searchParams }) {
       </main>
 
       {/* MOBILE STICKY CTA */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white/95 backdrop-blur-md border-t border-slate-200 px-4 py-3">
+      <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white/95 backdrop-blur-md border-t border-slate-200 px-4 py-3 flex gap-2">
         <a
           href={product.checkout_url}
-          className="flex items-center justify-center gap-2 w-full py-4 px-6 rounded-2xl bg-slate-900 text-white font-bold text-base shadow-xl active:scale-[0.98] transition-all duration-150"
+          className="flex-1 flex items-center justify-center gap-2 py-3 px-3 rounded-2xl bg-slate-900 text-white font-bold text-sm shadow-xl active:scale-[0.98] transition-all duration-150"
         >
-          <ShieldCheck className="w-5 h-5 text-emerald-400" />
-          Asegurar Oferta y Ver Detalles
+          <Image
+            src={STORAGE_URL + "imagotipo-rubyk.webp"}
+            alt="Rubyk"
+            width={28}
+            height={28}
+            className="w-7 h-7 object-contain"
+          />
+          Tienda Rubyk
         </a>
+        {product.ml_url && (
+          <a
+            href={product.ml_url}
+            className="flex-1 flex items-center justify-center gap-2 py-3 px-3 rounded-2xl bg-[#FFE600] text-slate-900 font-bold text-sm shadow-xl active:scale-[0.98] transition-all duration-150"
+          >
+            <Image
+              src={STORAGE_URL + "mercadolibre-logo-h.webp"}
+              alt="Mercado Libre"
+              width={80}
+              height={24}
+              className="h-6 w-auto object-contain"
+            />
+          </a>
+        )}
       </div>
 
       {/* META PIXEL */}
