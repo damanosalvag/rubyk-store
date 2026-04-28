@@ -70,16 +70,21 @@ export default async function Page({ searchParams }) {
         <div className="flex gap-2">
         <a
           href={product.checkout_url}
-          className="flex-1 flex items-center justify-center gap-2 py-3 px-3 rounded-2xl bg-slate-900 text-white font-bold text-sm shadow-xl active:scale-[0.98] transition-all duration-150"
+          className="flex-1 flex flex-col items-center justify-center py-3 px-3 rounded-2xl bg-slate-900 text-white shadow-xl active:scale-[0.98] transition-all duration-150"
         >
-          <Image
-            src={STORAGE_URL + "imagotipo-rubyk.webp"}
-            alt="Rubyk"
-            width={28}
-            height={28}
-            className="w-7 h-7 object-contain"
-          />
-          Tienda Rubyk
+          <span className="flex items-center gap-2 font-bold text-sm">
+            <Image
+              src={STORAGE_URL + "imagotipo-rubyk.webp"}
+              alt="Rubyk"
+              width={22}
+              height={22}
+              className="w-[22px] h-[22px] object-contain"
+            />
+            Tienda Rubyk
+          </span>
+          <span className="text-[10px] text-slate-400 mt-0.5 leading-tight text-center">
+            Pago contra entrega
+          </span>
         </a>
         {product.ml_url && (
           <a

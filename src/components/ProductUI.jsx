@@ -230,22 +230,27 @@ export default function ProductUI({ product, imageUrl }) {
             <p className="text-base font-bold text-slate-800">Elige dónde comprarlo — envío a todo el país</p>
           </div>
           {/* Tienda Rubyk */}
-          <a
-            href={product.checkout_url}
-            className="flex items-center justify-between gap-3 w-full py-4 px-5 rounded-2xl bg-slate-900 text-white font-bold text-base shadow-lg hover:bg-slate-800 active:scale-[0.98] transition-all duration-150 animate-pulse-cta"
-          >
-            <div className="flex items-center gap-3">
-              <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0" />
-              <span>Comprar en tienda oficial</span>
-            </div>
-            <Image
-              src={STORAGE_URL + "logo-rubyk-white-res.webp"}
-              alt="Rubyk"
-              width={100}
-              height={28}
-              className="h-7 w-auto object-contain shrink-0"
-            />
-          </a>
+          <div className="flex flex-col gap-1">
+            <a
+              href={product.checkout_url}
+              className="flex items-center justify-between gap-3 w-full py-4 px-5 rounded-2xl bg-slate-900 text-white font-bold text-base shadow-lg hover:bg-slate-800 active:scale-[0.98] transition-all duration-150 animate-pulse-cta"
+            >
+              <div className="flex items-center gap-3">
+                <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0" />
+                <span>Comprar en tienda oficial</span>
+              </div>
+              <Image
+                src={STORAGE_URL + "logo-rubyk-white-res.webp"}
+                alt="Rubyk"
+                width={100}
+                height={28}
+                className="h-7 w-auto object-contain shrink-0"
+              />
+            </a>
+            <p className="text-xs text-slate-400 px-1">
+              ✓ Acepta pago contra entrega · paga cuando llegue a tu puerta
+            </p>
+          </div>
 
           {/* Mercado Libre */}
           {product.ml_url && (
